@@ -3,7 +3,7 @@
 
 Data scraped from [NRK's election webpages](http://valg.nrk.no/valg2013/valgresultat/kommuner). NRK = Norwegian Broadcasting Corporation.
 
-The [data](https://github.com/askeluv/stortingsvalg2013/blob/master/stortingsvalg2013.csv) are in the form of a tab-separated file with 4 columns:
+The [data](https://github.com/askeluv/stortingsvalg2013/blob/master/stortingsvalg2013.tsv) are in the form of a tab-separated file with 4 columns:
 
 1. Municipality
 2. Party

@@ -6,6 +6,7 @@ import urllib
 
 MENU_URL = "http://valg.nrk.no/valg2013/valgresultat/kommuner"
 KOMMUNE_URL_BASE = "http://valg.nrk.no"
+OUTPUT_FILE = "stortingsvalg2013.tsv"
 
 # first let's get the name of the municipalities (=kommuner)
 html = urllib.urlopen(MENU_URL).read()
@@ -26,7 +27,7 @@ for k_url,k in kommuner:
     print k # print the municipality to keep track of progress
 
 # finally we write the data to a csv (tsv) file
-f = open("stortingsvalg2013.csv",'w')
+f = open(OUTPUT_FILE,'w')
 f.write("Municipality\tParty\tPercentage\tVotes\n")
 for line in res:
 	f.write("%s\t%s\t%s\t%s\n" % line)
