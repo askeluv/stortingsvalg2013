@@ -7,22 +7,27 @@ import urllib
 MENU_URL = "http://valg.nrk.no/valg2013/valgresultat/kommuner"
 KOMMUNE_URL_BASE = "http://valg.nrk.no"
 
-html = urllib.urlopen(MENU_URL).read() #
+# first let's get the name of the municipalities (=kommuner)
+html = urllib.urlopen(MENU_URL).read()
 menu = bs(html)
 kommuner = [(x["href"],x["title"]) for x in menu.findAll("a",{"class":"knapp"})]
 
+# then we iterate through them, getting one html per municipality
+# and scraping the relevant data
 res = []
 for k_url,k in kommuner:
     k_html = urllib.urlopen(KOMMUNE_URL_BASE + k_url).read()
     soup = bs(k_html)
-    res.extend([(k,x.find("a").text,x.find("span").text,x.findAll("td")[-1].text) \
-    			for x in [x for x in soup.findAll("tr")[1:]]])
-    print k
+    parties = soup.findAll("tr")[1:]
+    res.extend([(k,x.find("a").text,\
+    				x.find("span").text.replace('%','').replace(',','.'),\
+    				x.findAll("td")[-1].text.replace(' ','')) \
+    			for x in parties])
+    print k # print the municipality to keep track of progress
 
-for line in res:
-	print "%s\t%s\t%s" % line
-
+# finally we write the data to a csv (tsv) file
 f = open("stortingsvalg2013.csv",'w')
+f.write("Municipality\tParty\tPercentage\tVotes\n")
 for line in res:
-	f.write("%s\t%s\t%s\n" % line)
+	f.write("%s\t%s\t%s\t%s\n" % line)
 f.close()
